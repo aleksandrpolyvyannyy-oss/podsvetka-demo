@@ -1,4 +1,4 @@
-/* ПрофЭнерго - новогодняя подсветка. Статика, без сборки.
+/* podsvetkadoma.ru - новогодняя подсветка. Статика, без сборки.
    Анимируются opacity и transform; кадры сцены проявляются маской, её край двигает js/app.js. */
 
 @font-face {
@@ -33,6 +33,9 @@
   --ink: #1a1303;
   --err: #ff9f8a;
   --plate: rgba(6, 11, 25, .9);
+  /* подложки блоков над общим фоном .backdrop: дом виден, текст контрастный */
+  --sec: rgba(6, 11, 25, .9);
+  --sec-alt: rgba(10, 18, 38, .93);
   --gut: 1.25rem;
   --head-h: 3.5rem;
   --bar-h: calc(4.25rem + env(safe-area-inset-bottom, 0px));
@@ -47,7 +50,6 @@
 html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; scroll-padding-top: calc(var(--head-h) + 1rem); }
 body {
   margin: 0;
-  padding-bottom: var(--bar-h);
   background: var(--bg);
   color: var(--text);
   font: 400 1.0625rem/1.55 "Onest", "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -115,17 +117,24 @@ h3 { font-size: clamp(1.5rem, 2.6vw, 2.375rem); line-height: 1.1; }
 }
 .head::after { content: ""; position: absolute; inset: auto 0 0 0; height: 1px; background: var(--line); }
 .logo { display: flex; flex-direction: column; margin-right: auto; text-decoration: none; line-height: 1.1; }
-.logo__name { font-weight: 650; font-size: 1.1875rem; letter-spacing: -.01em; }
+.logo__name { font-weight: 650; font-size: 1.1875rem; letter-spacing: -.01em; white-space: nowrap; }
 .logo__name::before { content: ""; display: inline-block; width: .5rem; height: .5rem; margin-right: .625rem; border-radius: 50%; background: var(--gold); box-shadow: 0 0 12px 2px rgba(242, 196, 109, .5); vertical-align: .1em; }
 .logo__sub { display: none; margin-top: .25rem; padding-left: 1.125rem; color: var(--mute); font-size: .8125rem; letter-spacing: .01em; }
 .head__tel { font-weight: 550; font-size: 1rem; text-decoration: none; white-space: nowrap; padding-block: .75rem; }
 .head__tel:hover { color: var(--gold-hi); }
 .head__btn { display: none; }
+/* Узкий телефон: длинное название-домен и телефон в одну строку */
+@media (max-width: 479px) {
+  .head { gap: .75rem; }
+  .logo__name { font-size: .9375rem; }
+  .logo__name::before { width: .4375rem; height: .4375rem; margin-right: .4375rem; }
+  .head__tel { font-size: .9375rem; }
+}
 
 /* ---------- Сцена ---------- */
 .scene { position: relative; }
 .scene__stage {
-  position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden;
+  position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; background: var(--bg);
   display: grid; grid-template-rows: auto minmax(0, 1fr);
   padding: var(--head-h) 0 var(--bar-h);
 }
@@ -135,9 +144,12 @@ h3 { font-size: clamp(1.5rem, 2.6vw, 2.375rem); line-height: 1.1; }
   max-height: calc(100svh - var(--head-h) - var(--bar-h) - 15.5rem);
   background: #0c1e4a;
 }
-.scene__cam { position: absolute; inset: 0; transform-origin: 0 0; transition: transform .9s cubic-bezier(.45, 0, .2, 1); }
+/* Камера: только transform. house - к дому, tree - к ёлке слева (якорь в левом нижнем углу),
+   birch - к берёзам справа (якорь у правого края). В финале и hero кадр целиком */
+.scene__cam, .backdrop__cam { position: absolute; inset: 0; transform-origin: 0 0; transition: transform 1s cubic-bezier(.45, 0, .2, 1); }
 .scene[data-cam="house"] .scene__cam { transform: translate(-10.4%, -11%) scale(1.2); }
-.scene[data-cam="tree"] .scene__cam { transform: translate(0, -4%) scale(1.08); }
+.scene[data-cam="tree"] .scene__cam { transform: translate(0, -20%) scale(1.2); }
+.scene[data-cam="birch"] .scene__cam { transform: translate(-20%, -10%) scale(1.2); }
 .frame {
   position: absolute; inset: 0; width: 100%; height: 100%;
   object-fit: cover; object-position: 50% 56%;
@@ -178,14 +190,6 @@ h3 { font-size: clamp(1.5rem, 2.6vw, 2.375rem); line-height: 1.1; }
 .facts li:first-child { padding-left: 0; border-left: 0; }
 .facts b { font-size: 1.0625rem; font-weight: 600; letter-spacing: -.02em; white-space: nowrap; }
 .facts span { order: 2; color: var(--mute); font-size: .8125rem; white-space: nowrap; }
-.deadline { margin-bottom: .625rem; font-size: .875rem; line-height: 1.3; }
-.deadline b {
-  display: inline-flex; align-items: center; gap: .5rem; white-space: nowrap;
-  padding: .3125rem .75rem; border: 1px solid rgba(242, 196, 109, .6); border-radius: var(--r);
-  color: var(--gold-hi); font-weight: 550; font-size: .8125rem; letter-spacing: .02em;
-}
-.deadline b::before { content: ""; width: .375rem; height: .375rem; border-radius: 50%; background: var(--gold); }
-.deadline span { display: none; color: var(--soft); }
 
 /* Карточка шага на телефоне: итог прижат к низу и крупный */
 .scard { display: flex; flex-direction: column; }
@@ -222,7 +226,6 @@ html:not(.js) .scene__track { display: none; }
   .hero__sub { margin-top: .75rem; font-size: 1rem; line-height: 1.45; }
   .facts { margin-top: 1.25rem; padding-top: 1rem; }
   .facts b { font-size: 1.1875rem; }
-  .deadline { margin-bottom: .875rem; }
   .scene__bulbs { top: 1.65rem; }
   .scard__n { font-size: .9375rem; }
   .scard__t { margin-top: .375rem; font-size: 2.125rem; }
@@ -243,11 +246,16 @@ html:not(.js) .scene__track { display: none; }
   .scene__stage { display: block; padding: 0; }
   .scene__view { position: absolute; inset: 0; aspect-ratio: auto; max-height: none; container-type: size; }
   .scene[data-cam="house"] .scene__cam { transform: translate(-7.68%, -11.2%) scale(1.16); }
-  .scene[data-cam="tree"] .scene__cam { transform: translate(0, -12%) scale(1.12); }
+  /* фон повторяет камеру сцены: в финале сцена становится прозрачной и дом остаётся на месте */
+  .backdrop[data-cam="house"] .backdrop__cam { transform: translate(-7.68%, -11.2%) scale(1.16); }
+  .backdrop[data-cam="tree"] .backdrop__cam { transform: translate(0, -20%) scale(1.2); }
+  .backdrop[data-cam="birch"] .backdrop__cam { transform: translate(-20%, -10%) scale(1.2); }
+  .scene.is-thru .scene__stage, .scene.is-thru .scene__view { background: none; }
+  .scene.is-thru .scene__cam { visibility: hidden; }
   .scene__shade { display: block; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(to bottom, rgba(6, 11, 25, .72), rgba(6, 11, 25, 0) 22%); }
   .scene__shade::before {
     content: ""; position: absolute; inset: 0;
-    background: linear-gradient(to top, rgba(6, 11, 25, .7), rgba(6, 11, 25, 0) 26%);
+    background: linear-gradient(to top, rgba(6, 11, 25, .78), rgba(6, 11, 25, .5) 12%, rgba(6, 11, 25, 0) 30%);
   }
   .scene__shade::after {
     content: ""; position: absolute; inset: 0;
@@ -260,6 +268,7 @@ html:not(.js) .scene__track { display: none; }
 
   .scene__panel {
     position: absolute; inset: var(--head-h) 0 var(--bar-h); overflow: visible;
+    grid-template-columns: minmax(0, 1fr);   /* широкое содержимое hero не раздвигает колонку карточек */
     align-content: stretch; padding: 2rem clamp(1.5rem, 5.5vw, 5rem) 1.75rem;
   }
   .hero { align-self: stretch; display: flex; flex-direction: column; justify-content: space-between; }
@@ -275,39 +284,48 @@ html:not(.js) .scene__track { display: none; }
   .facts li:first-child { padding-left: 1.75rem; }
   .facts b { font-size: clamp(1.25rem, 2.1vw, 1.875rem); font-weight: 560; }
   .facts span { font-size: .875rem; color: #b9bdcc; }
-  .deadline { display: flex; align-items: center; gap: .875rem; margin-bottom: 1.5rem; font-size: .875rem; }
-  .deadline span { display: none; color: #c3c7d4; }
 
-  /* Карточки: горизонтальная полоса внизу по центру, над дорожкой и снегом, где нет света */
+  /* Карточки: низкая полоса внизу. Подложка прозрачна на 80%, текст непрозрачный,
+     читаемость на снегу держат статичная тень текста и затемнение низа кадра (.scene__shade) */
   .scard {
-    align-self: end; justify-self: center; width: min(100%, 57rem);
-    padding: 1.25rem 1.75rem 1.375rem; background: var(--plate); border: 1px solid var(--line); border-radius: var(--r);
+    align-self: end; justify-self: center; width: min(100%, 56rem);
+    padding: .75rem 1.5rem .875rem; background: rgba(6, 11, 25, .2); border: 1px solid rgba(214, 222, 255, .22); border-radius: var(--r);
+    text-shadow: 0 1px 2px rgba(3, 6, 16, .95), 0 0 10px rgba(3, 6, 16, .8), 0 0 22px rgba(3, 6, 16, .55);
   }
-  .scards .scard { display: grid; grid-template-columns: 12.5rem minmax(0, 1fr) minmax(0, 20.5rem); grid-template-rows: auto auto 1fr; column-gap: 1.75rem; align-items: end; }
-  .scards .scard__n { grid-column: 1 / -1; grid-row: 1; margin-bottom: 1rem; padding-bottom: .875rem; border-bottom: 1px solid var(--line); }
-  .scards .scard__sum { grid-column: 1; grid-row: 2 / 4; align-self: end; order: 0; margin: 0; padding: 0; border: 0; }
-  .scards .scard__t { grid-column: 2; grid-row: 2; margin: 0; padding-left: 1.75rem; border-left: 1px solid var(--line); font-size: 1.375rem; }
-  .scards .scard__d { grid-column: 2; grid-row: 3; align-self: start; margin: 0; padding: .25rem 0 0 1.75rem; border-left: 1px solid var(--line); font-size: .9375rem; }
-  .scards .scard__dl { grid-column: 3; grid-row: 2 / 4; align-self: end; margin: 0; gap: 1rem; }
+  .scard .btn { text-shadow: none; }
+  .scard__n, .scard__d, .scard__dl dt, .scard__sum span { color: #e9ebf2; }
+  .scards .scard { display: grid; grid-template-columns: 12.75rem minmax(0, 1fr) auto; grid-template-rows: auto auto 1fr; column-gap: 1.5rem; align-items: start; }
+  .scards .scard__sum { grid-column: 1; grid-row: 1 / 4; align-self: center; order: 0; margin: 0; padding: 0; border: 0; }
+  .scards .scard__n { grid-column: 2; grid-row: 1; padding-left: 1.5rem; border-left: 1px solid rgba(214, 222, 255, .3); font-size: .8125rem; }
+  .scards .scard__t { grid-column: 2; grid-row: 2; margin: 0; padding: .125rem 0 0 1.5rem; border-left: 1px solid rgba(214, 222, 255, .3); font-size: 1.375rem; }
+  .scards .scard__d { grid-column: 2; grid-row: 3; align-self: stretch; margin: 0; padding: .125rem 0 0 1.5rem; border-left: 1px solid rgba(214, 222, 255, .3); font-size: .9375rem; }
+  .scards .scard__dl { grid-column: 3; grid-row: 1 / 4; align-self: center; grid-template-columns: repeat(3, auto); margin: 0; gap: 1.25rem; }
+  .scards .scard__dl dt { white-space: nowrap; }
+  .scards .scard__dl div:first-child dd { max-width: 8.75rem; }
+  /* на шаге с ёлкой карточка уходит вправо, на шаге с берёзами - влево: камера приближает дерево */
+  .scards .scard[data-step="4"] { justify-self: end; }
+  .scards .scard[data-step="5"] { justify-self: start; }
   .scard__dl dd { font-size: .9375rem; }
-  .scard__sum b { font-size: 2.75rem; }
-  .scard__sum i { font-size: 1.25rem; }
-  .scard--dark { justify-self: start; width: auto; max-width: 36rem; padding: 1.5rem 1.75rem; }
-  .scard--dark .scard__t { font-size: 2.25rem; }
-  .scard--final { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 2.5rem; align-items: center; border-color: rgba(242, 196, 109, .38); }
+  .scard__sum span { margin-bottom: .3125rem; font-size: .6875rem; }
+  .scard__sum b { font-size: 2.375rem; }
+  .scard__sum i { font-size: 1.125rem; }
+  .scard--dark { justify-self: start; width: auto; max-width: 36rem; padding: .875rem 1.5rem 1rem; }
+  .scard--dark .scard__t { font-size: 1.75rem; }
+  .scard--final { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 2rem; align-items: center; padding-block: .75rem; border-color: rgba(242, 196, 109, .45); }
   .scard--final > p { grid-column: 1; }
-  .scard--final { width: min(100%, 64rem); }
-  .scard--final .scard__t { font-size: 1.25rem; }
-  .scard--final .scard__t b { display: inline; margin: 0 .125rem; font-size: 2rem; }
+  .scard--final { width: min(100%, 60rem); }
+  .scard--final .scard__t { font-size: 1.1875rem; }
+  .scard--final .scard__t b { display: inline; margin: 0 .125rem; font-size: 1.75rem; }
   .scard--final .btn { grid-column: 2; grid-row: 1 / 4; margin-top: 0; }
   .scene__bulbs { top: 50%; right: clamp(.75rem, 1.8vw, 2rem); flex-direction: column; gap: .875rem; padding: .875rem .625rem; border-radius: 99px; background: var(--plate); transform: translateY(-50%); }
 }
 @media (orientation: landscape) and (min-width: 1200px) and (min-height: 521px) {
-  .hero__sub span, .deadline span { display: inline; }
+  .hero__sub span { display: inline; }
 }
 @media (orientation: landscape) and (min-width: 640px) and (max-width: 1023px) and (min-height: 521px) {
-  .scards .scard { grid-template-columns: 11rem minmax(0, 1fr); }
-  .scards .scard__dl { grid-column: 1 / -1; grid-row: 4; margin-top: 1rem; }
+  .scards .scard { grid-template-columns: 12.5rem minmax(0, 1fr); }
+  .scards .scard__dl { grid-column: 1 / -1; grid-row: 4; justify-content: start; margin-top: .75rem; }
+  .scards .scard__dl div:first-child dd { max-width: none; }
 }
 /* Низкий альбомный экран (телефон боком): картинка слева, текст справа */
 @media (orientation: landscape) and (max-height: 520px) {
@@ -315,7 +333,7 @@ html:not(.js) .scene__track { display: none; }
   .scene__view { width: auto; height: 100%; max-height: none; }
   .scene__panel { padding: .625rem 1rem .25rem 1.25rem; }
   .hero h1 { font-size: 1.625rem; }
-  .hero__sub span, .deadline { display: none; }
+  .hero__sub span { display: none; }
   .scard__sum b { font-size: 1.625rem; }
 }
 
@@ -346,8 +364,34 @@ html:not(.js) .scene__track { display: none; }
 .rv-on .works .rv:nth-child(3n+3) { transition-delay: .16s; }
 
 /* ---------- Секции ---------- */
-.sec { padding-block: clamp(4.5rem, 8vw, 8rem); border-top: 1px solid var(--line); }
-.sec--alt { background: var(--bg-2); border-top-color: transparent; }
+/* ---------- Общий фон под блоками: дом в полной подсветке, лампочки мерцают ---------- */
+/* Закреплённый слой (position: fixed браузер и так выносит в отдельный композитный слой): при прокрутке
+   не перерисовывается, анимируется только opacity слоёв .tw. will-change сюда не ставить: с ним браузер
+   масштабирует картинку грубее, и подмена кадра сцены на фон в финале становится заметной */
+.backdrop { position: fixed; inset: 0; z-index: -1; overflow: hidden; background: var(--bg); pointer-events: none; }
+.backdrop img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: 50% 56%; }
+.backdrop__tw { position: absolute; inset: 0; opacity: 0; transition: opacity .8s ease; }
+.backdrop.is-live .backdrop__tw { opacity: 1; }
+.tw { opacity: .1; animation: tw 2.6s ease-in-out infinite alternate paused; }
+.tw:nth-child(2) { animation-duration: 3.4s; animation-delay: -1.3s; }
+.tw:nth-child(3) { animation-duration: 4.3s; animation-delay: -2.9s; }
+.tw:not([src]) { display: none; }
+.backdrop.is-live .tw { animation-play-state: running; }
+@keyframes tw { from { opacity: .1; } to { opacity: 1; } }
+/* Слои мерцания рисуем только в полосе кадра, где есть гирлянды (20-80% высоты картинки):
+   геометрия лампочек та же, а площадь, которую браузер смешивает на каждом кадре, меньше на 40% */
+@supports (width: 1cqw) {
+  .backdrop { container-type: size; }
+  .backdrop__tw {
+    --dh: max(100cqh, 75cqw);   /* высота картинки 4:3 при object-fit: cover */
+    --y: calc((100cqh - var(--dh)) * .56 + var(--dh) * .2);
+    inset: auto; left: 0; top: var(--y); width: 100%; height: calc(var(--dh) * .6); overflow: hidden;
+  }
+  .backdrop .tw { inset: auto; left: 0; top: calc(var(--y) * -1); width: 100cqw; height: 100cqh; }
+}
+
+.sec { padding-block: clamp(4.5rem, 8vw, 8rem); border-top: 1px solid var(--line); background: var(--sec); }
+.sec--alt { background: var(--sec-alt); border-top-color: transparent; }
 .sec__head { display: grid; gap: 1rem; margin-bottom: clamp(2rem, 4vw, 3.5rem); }
 .sec__head .eyebrow { margin-bottom: -.125rem; }
 .sec__head p:not(.eyebrow), .lead { max-width: 36rem; color: var(--soft); font-size: clamp(1.0625rem, 1.3vw, 1.1875rem); text-wrap: pretty; }
@@ -469,9 +513,6 @@ html:not(.js) .scene__track { display: none; }
   content: ""; position: absolute; left: 0; top: 1.625rem; width: 1.75rem; height: 1.75rem; background: var(--gold);
   -webkit-mask: var(--check) center / contain no-repeat; mask: var(--check) center / contain no-repeat;
 }
-.org { display: flex; flex-direction: column; gap: .25rem; max-width: 26rem; margin-top: 2rem; padding: 1.5rem; border: 1px solid var(--line-2); border-radius: var(--r); color: var(--mute); font-size: .875rem; }
-.org span { font-size: .75rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
-.org b { color: var(--text); font-size: 1.25rem; font-weight: 620; }
 
 .why { display: grid; gap: 2rem; margin-top: clamp(3rem, 6vw, 5rem); padding: clamp(1.5rem, 4vw, 3.5rem); background: var(--bg); border: 1px solid var(--line); border-radius: var(--r); }
 .why .lead { margin-top: 1rem; font-size: 1rem; }
@@ -509,12 +550,8 @@ html:not(.js) .scene__track { display: none; }
 .faq summary:hover { color: var(--gold-hi); }
 .faq p { max-width: 40rem; padding: 0 3.5rem 1.5rem 0; color: var(--soft); }
 
-/* Форма на фоне освещённого дома */
-.sec--lead { position: relative; overflow: hidden; padding-block: clamp(5rem, 9vw, 9rem); }
-.sec__bg { position: absolute; inset: 0; }
-.sec__bg img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 45%; }
-.sec__bg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(6, 11, 25, .95), rgba(6, 11, 25, .86) 45%, rgba(6, 11, 25, .5)); }
-.sec--lead .wrap { position: relative; }
+/* Форма: подложка светлее, дом из общего фона виден лучше всего */
+.sec--lead { padding-block: clamp(5rem, 9vw, 9rem); background: rgba(6, 11, 25, .86); }
 .leadbox { max-width: 38rem; }
 .leadbox .lead { margin-top: 1.25rem; }
 .form { max-width: none; margin-top: 2rem; }
@@ -526,7 +563,7 @@ html:not(.js) .scene__track { display: none; }
 .form__row + .field__err + .agree { margin-top: 1rem; }
 
 /* Подвал */
-.foot { padding-block: 2.5rem 3rem; border-top: 1px solid var(--line); color: var(--mute); font-size: .875rem; }
+.foot { padding-block: 2.5rem calc(3rem + var(--bar-h)); border-top: 1px solid var(--line); background: var(--sec-alt); color: var(--mute); font-size: .875rem; }
 .foot__grid { display: grid; gap: 1.25rem; }
 .foot__grid p + p { margin-top: .25rem; }
 .foot__name { color: var(--text); font-size: 1.0625rem; font-weight: 650; }
@@ -555,7 +592,7 @@ html:not(.js) .scene__track { display: none; }
 .modal__close:hover::before, .modal__close:hover::after { background: var(--gold-hi); }
 
 /* Политика */
-.page-doc { padding-bottom: 0; }
+.page-doc .foot { padding-bottom: 3rem; }
 .doc { padding-block: calc(var(--head-h) + 3rem) 4rem; }
 .doc h1 { font-size: clamp(1.75rem, 4vw, 3rem); line-height: 1.1; }
 .doc h2 { margin-top: 3rem; font-size: clamp(1.5rem, 3vw, 2.25rem); }
@@ -575,7 +612,8 @@ html:not(.js) .scene__track { display: none; }
   .foot__grid { grid-template-columns: repeat(3, auto); justify-content: space-between; }
 }
 @media (min-width: 900px) {
-  :root { --gut: clamp(2rem, 5.5vw, 5rem); --head-h: 5rem; --bar-h: 0px; }
+  :root { --gut: clamp(2rem, 5.5vw, 5rem); --head-h: 5rem; --bar-h: 0px; --sec: rgba(6, 11, 25, .8); --sec-alt: rgba(10, 18, 38, .88); }
+  .sec--lead { background: linear-gradient(90deg, rgba(6, 11, 25, .88), rgba(6, 11, 25, .7) 42%, rgba(6, 11, 25, .46)); }
   body { font-size: 1.125rem; }
   .bar { display: none; }
   .head { gap: 2rem; background: none; }
@@ -611,7 +649,8 @@ html:not(.js) .scene__track { display: none; }
   .head::after { display: none; }
 }
 
-/* Системная настройка «меньше движения» (класс ставит app.js): без камеры и ролика, свет по прокрутке остаётся */
-.rm .scene .scene__cam { transform: none !important; transition: none !important; }
+/* Выключатель для отладки: ?motion=off в адресе (класс .rm ставит app.js). Без камеры, ролика и мерцания, свет по прокрутке остаётся */
+.rm .scene .scene__cam, .rm .backdrop__cam { transform: none !important; transition: none !important; }
+.rm .tw { animation: none; }
 .rm .scene__video { display: none !important; }
 .rm .hero, .rm .scard { transform: none !important; }

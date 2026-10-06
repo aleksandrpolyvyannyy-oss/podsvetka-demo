@@ -1,11 +1,22 @@
 <!doctype html>
 <html lang="ru">
 <head>
+<!-- Перед запуском рекламы вернуть реквизиты оператора (ООО, ИНН, ОГРН) в подвал и политику: требование 152-ФЗ -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
-<title>Новогодняя подсветка дома под ключ - Новая Рига, Истра, Химки, Одинцово | ПрофЭнерго</title>
+<title>Новогодняя подсветка дома под ключ - Новая Рига, Истра, Химки, Одинцово | podsvetkadoma.ru</title>
 <meta name="description" content="Украсим дом и участок гирляндами к Новому году. Монтируют электрики, по договору. От 1 000 руб./м, монтаж за 1 день. Расчёт по фото в день обращения.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:site_name" content="podsvetkadoma.ru">
+<meta property="og:title" content="Новогодняя подсветка дома под ключ - Новая Рига, Истра, Химки, Одинцово">
+<meta property="og:description" content="Украсим дом и участок гирляндами к Новому году. Монтируют электрики, по договору. От 1 000 руб./м, монтаж за 1 день. Расчёт по фото в день обращения.">
+<meta property="og:url" content="https://aleksandrpolyvyannyy-oss.github.io/podsvetka-demo/">
+<meta property="og:image" content="https://aleksandrpolyvyannyy-oss.github.io/podsvetka-demo/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#060b19">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23060b19'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%23f2c46d'/%3E%3C/svg%3E">
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/onest-cyrillic.woff2" crossorigin>
@@ -19,9 +30,25 @@
 </head>
 <body>
 
+<!-- Фон под блоками после сцены: тот же кадр f5 с той же геометрией и слои мерцания.
+     Слои мерцания подгружает и запускает js/app.js, когда блоки под сценой подходят к экрану -->
+<div class="backdrop" id="backdrop" data-cam="full" aria-hidden="true">
+  <div class="backdrop__cam">
+    <picture>
+      <source type="image/avif" srcset="assets/scene/f5-1200.avif 1200w, assets/scene/f5-2000.avif 2000w" sizes="(orientation: landscape) and (max-height: 520px) 45vw, (orientation: landscape) and (min-width: 640px) max(100vw, 134vh), 92vw">
+      <img class="backdrop__img" src="assets/scene/f5-1200.webp" srcset="assets/scene/f5-1200.webp 1200w, assets/scene/f5-2000.webp 2000w" sizes="(orientation: landscape) and (max-height: 520px) 45vw, (orientation: landscape) and (min-width: 640px) max(100vw, 134vh), 92vw" width="1200" height="896" alt="" loading="lazy" decoding="async">
+    </picture>
+    <div class="backdrop__tw">
+      <img class="tw" data-src="assets/scene/tw1-600.webp" data-wide="assets/scene/tw1-1000.webp" width="1000" height="747" alt="" decoding="async">
+      <img class="tw" data-src="assets/scene/tw2-600.webp" data-wide="assets/scene/tw2-1000.webp" width="1000" height="747" alt="" decoding="async">
+      <img class="tw" data-wide="assets/scene/tw3-1000.webp" width="1000" height="747" alt="" decoding="async">
+    </div>
+  </div>
+</div>
+
 <header class="head" id="head">
-  <a class="logo" href="#scene" aria-label="ПрофЭнерго, в начало страницы">
-    <span class="logo__name">ПрофЭнерго</span>
+  <a class="logo" href="#scene" aria-label="podsvetkadoma.ru, в начало страницы">
+    <span class="logo__name">podsvetkadoma.ru</span>
     <span class="logo__sub">Новогодняя подсветка домов</span>
   </a>
   <a class="head__tel" href="tel:+79999999999">+7 (999) 999-99-99</a>
@@ -67,7 +94,6 @@
     <div class="scene__panel">
       <div class="hero">
         <div class="hero__top">
-          <p class="deadline"><b>Монтируем до 25 декабря</b><span>Чем ближе к празднику, тем меньше свободных дней.</span></p>
           <h1>Новогодняя подсветка<br> дома под ключ</h1>
           <p class="hero__sub">Украсим гирляндами фасад, кровлю и участок. <span>Монтируют электрики: считаем нагрузку, подключаем через защиту, ставим таймер.</span></p>
         </div>
@@ -407,10 +433,6 @@
 </section>
 
 <section class="sec sec--lead" id="lead">
-  <picture class="sec__bg" aria-hidden="true">
-    <source type="image/avif" srcset="assets/scene/f5-1200.avif">
-    <img src="assets/scene/f5-1200.webp" width="1200" height="896" alt="" loading="lazy" decoding="async">
-  </picture>
   <div class="wrap">
     <div class="leadbox rv">
       <h2>Оставьте телефон - посчитаем подсветку вашего дома</h2>
@@ -443,11 +465,10 @@
 <footer class="foot">
   <div class="wrap foot__grid">
     <div>
-      <p class="foot__name">ПрофЭнерго</p>
+      <p class="foot__name">podsvetkadoma.ru</p>
     </div>
     <div>
       <p><a href="tel:+79999999999">+7 (999) 999-99-99</a>, ежедневно с 9 до 21</p>
-      <p>Электромонтаж под ключ - <a href="https://profenergo77.ru" rel="noopener">profenergo77.ru</a></p>
     </div>
     <div>
       <p><a href="policy.html">Политика обработки персональных данных</a></p>

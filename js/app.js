@@ -1,4 +1,4 @@
-/* ПрофЭнерго - новогодняя подсветка. Чистый JS, без библиотек.
+/* podsvetkadoma.ru - новогодняя подсветка. Чистый JS, без библиотек.
    Слушатель scroll один, пассивный: он только будит цикл сцены. */
 (function () {
   'use strict';
@@ -34,9 +34,9 @@
     else window.addEventListener('load', fn, { once: true });
   }
 
-  // «Меньше движения» в системе отключает только камеру и ролик; свет по прокрутке остаётся.
-  // ?motion=full включает всё принудительно (для показа на машинах, где анимации выключены в системе).
-  var reduce = !/[?&]motion=full/.test(location.search) && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Камера, ролик и мерцание работают всегда, системная настройка «меньше движения» на них не влияет.
+  // Выключатель для отладки: ?motion=off в адресе
+  var reduce = /[?&]motion=off/.test(location.search);
   if (reduce) document.documentElement.classList.add('rm');
   var saveData = !!(navigator.connection && navigator.connection.saveData);
 
@@ -47,7 +47,7 @@
   function initScene() {
     var N = STEPS.length;
     // Камера по состояниям, см. .scene[data-cam]
-    var CAM = { hero: 'full', 4: 'tree', 5: 'full', final: 'full' };   // остальные - 'house'
+    var CAM = { hero: 'full', 4: 'tree', 5: 'birch', final: 'full' };   // остальные - 'house'
     var REVEAL = 0.72;    // доля шага на проявление, дальше кадр стоит открытым
     var FEATHER = 0.09;   // растушёвка, доля ширины кадра
     var FADE = 750;       // мс, чуть дольше opacity у .frame
@@ -58,6 +58,9 @@
     var marks = $$('.scene__track i', scene);
     var view = $('.scene__view', scene);
     var video = $('.scene__video', scene);
+    // Общий фон .backdrop: тот же кадр f5 с той же геометрией. В финале сцена становится прозрачной (.is-thru),
+    // и при уходе сцены вверх дом остаётся на месте
+    var back = $('#backdrop'), backImg = back && $('img', back), backOk = false, isThru = false, overlay = false;
     var bulbs = $$('.scene__bulbs li', scene);
     var state = 'hero';
     var introDone = reduce;      // пока false, в hero дом тёмный
@@ -101,6 +104,7 @@
     // Геометрия: при старте и после resize. В цикле layout не читаем
     function measure() {
       stale = false;
+      overlay = matchMedia('(orientation: landscape) and (min-width: 640px) and (min-height: 521px)').matches;
       var vh = window.innerHeight;
       var top = scene.getBoundingClientRect().top + window.scrollY;
       var W = view.clientWidth, H = view.clientHeight;
@@ -179,6 +183,9 @@
         }
         if (wipe !== !!isWipe[k]) { isWipe[k] = wipe; frames[k].classList.toggle('is-wipe', wipe); }
       }
+      // Финал: последний кадр открыт целиком, под сценой лежит такой же - показываем его
+      on = state === 'final' && backOk && overlay && cur[N] === 1;
+      if (on !== isThru) { isThru = on; scene.classList.toggle('is-thru', on); }
       return busy;
     }
 
@@ -230,6 +237,7 @@
       state = name;
       scene.dataset.state = name;
       scene.dataset.cam = CAM[name] || 'house';
+      if (back) back.dataset.cam = scene.dataset.cam;   // фон повторяет камеру, чтобы подмена в финале была незаметной
       scene.style.removeProperty('--fade');
       if (name !== 'hero') {
         introDone = true;
@@ -331,6 +339,7 @@
 
     // f1-f4: после load, в простое, по одному
     onLoad(function () {
+      if (backImg && backImg.decode) backImg.decode().then(function () { backOk = true; paint(); }, function () {});
       var queue = [1, 2, 3, 4];
       function next() {
         var k = queue.shift();
@@ -356,6 +365,37 @@
     rv.forEach(function (el) { rvIo.observe(el); });
   } else {
     rv.forEach(function (el) { el.classList.add('is-in'); });
+  }
+
+  /* === Общий фон: мерцание лампочек === */
+  var backdrop = $('#backdrop');
+  if (backdrop && scene && !reduce && 'IntersectionObserver' in window) {
+    // Слои мерцания грузим один раз. На телефоне слоёв два, файлы меньше
+    var twAsked = false;
+    var loadTw = function () {
+      if (twAsked) return;
+      twAsked = true;
+      var big = matchMedia('(min-width: 900px)').matches;
+      $$('.tw', backdrop).forEach(function (img) {
+        var src = big ? img.dataset.wide : img.dataset.src;
+        if (src) img.src = src;
+      });
+    };
+    // Заранее: когда до блоков под сценой остаётся полтора экрана
+    var twIo = new IntersectionObserver(function (entries) {
+      if (!entries[0].isIntersecting) return;
+      twIo.disconnect();
+      loadTw();
+    }, { rootMargin: '0px 0px 150% 0px' });
+    twIo.observe($('.scene__track i:last-child', scene));
+    // Мерцание идёт, только пока блоки под сценой на экране: низ сцены выше низа экрана.
+    // Здесь же грузим слои, если сцену перепрыгнули по якорю
+    new IntersectionObserver(function (entries) {
+      var e = entries[entries.length - 1];
+      var live = !e.isIntersecting && e.boundingClientRect.top < 0;
+      if (live) loadTw();
+      backdrop.classList.toggle('is-live', live);
+    }, { rootMargin: '-99% 0px 0px 0px' }).observe(scene);
   }
 
   /* === Шапка и нижняя панель === */
