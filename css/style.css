@@ -118,8 +118,10 @@ h3 { font-size: clamp(1.5rem, 2.6vw, 2.375rem); line-height: 1.1; }
 .head::after { content: ""; position: absolute; inset: auto 0 0 0; height: 1px; background: var(--line); }
 .logo { display: flex; flex-direction: column; margin-right: auto; text-decoration: none; line-height: 1.1; }
 .logo__name { font-weight: 650; font-size: 1.1875rem; letter-spacing: -.01em; white-space: nowrap; }
-.logo__name::before { content: ""; display: inline-block; width: .5rem; height: .5rem; margin-right: .625rem; border-radius: 50%; background: var(--gold); box-shadow: 0 0 12px 2px rgba(242, 196, 109, .5); vertical-align: .1em; }
-.logo__sub { display: none; margin-top: .25rem; padding-left: 1.125rem; color: var(--mute); font-size: .8125rem; letter-spacing: .01em; }
+.logo__name::before { content: ""; display: inline-block; width: 1.5rem; height: 1.02rem; margin-right: .5625rem; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 19'%3E%3Ccircle cx='2' cy='16' r='1.9' fill='%23f2c46d'/%3E%3Ccircle cx='6' cy='11.67' r='1.9' fill='%23f2c46d'/%3E%3Ccircle cx='10' cy='7.33' r='1.9' fill='%23f2c46d'/%3E%3Ccircle cx='14' cy='3' r='2.3' fill='%23f2c46d'/%3E%3Ccircle cx='18' cy='7.33' r='1.9' fill='%23f2c46d'/%3E%3Ccircle cx='22' cy='11.67' r='1.9' fill='%23f2c46d'/%3E%3Ccircle cx='26' cy='16' r='1.9' fill='%23f2c46d'/%3E%3C/svg%3E") center / contain no-repeat; vertical-align: -.02em; }
+.logo__name b, .foot__name b { color: var(--gold); font-weight: inherit; }
+.logo__name i, .foot__name i { font-style: normal; font-weight: 500; color: var(--mute); }
+.logo__sub { display: none; margin-top: .25rem; padding-left: 2.0625rem; color: var(--mute); font-size: .8125rem; letter-spacing: .01em; }
 .head__tel { font-weight: 550; font-size: 1rem; text-decoration: none; white-space: nowrap; padding-block: .75rem; }
 .head__tel:hover { color: var(--gold-hi); }
 .head__btn { display: none; }
@@ -127,7 +129,7 @@ h3 { font-size: clamp(1.5rem, 2.6vw, 2.375rem); line-height: 1.1; }
 @media (max-width: 479px) {
   .head { gap: .75rem; }
   .logo__name { font-size: .9375rem; }
-  .logo__name::before { width: .4375rem; height: .4375rem; margin-right: .4375rem; }
+  .logo__name::before { width: 1.125rem; height: .77rem; margin-right: .375rem; }
   .head__tel { font-size: .9375rem; }
 }
 
@@ -567,7 +569,7 @@ html:not(.js) .scene__track { display: none; }
 .foot__grid { display: grid; gap: 1.25rem; }
 .foot__grid p + p { margin-top: .25rem; }
 .foot__name { color: var(--text); font-size: 1.0625rem; font-weight: 650; }
-.foot__name::before { content: ""; display: inline-block; width: .5rem; height: .5rem; margin-right: .625rem; border-radius: 50%; background: var(--gold); vertical-align: .1em; }
+.foot__name::before { content: ""; display: inline-block; width: 1.375rem; height: .93rem; margin-right: .5625rem; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 19'%3E%3Ccircle cx='2' cy='16' r='1.9' fill='%23f2c46d'/%3E%3Ccircle cx='6' cy='11.67' r='1.9' fill='%23f2c46d'/%3E%3Ccircle cx='10' cy='7.33' r='1.9' fill='%23f2c46d'/%3E%3Ccircle cx='14' cy='3' r='2.3' fill='%23f2c46d'/%3E%3Ccircle cx='18' cy='7.33' r='1.9' fill='%23f2c46d'/%3E%3Ccircle cx='22' cy='11.67' r='1.9' fill='%23f2c46d'/%3E%3Ccircle cx='26' cy='16' r='1.9' fill='%23f2c46d'/%3E%3C/svg%3E") center / contain no-repeat; vertical-align: -.02em; }
 .foot a { color: var(--soft); }
 
 /* Панель на телефоне */
