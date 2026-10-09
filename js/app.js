@@ -367,6 +367,18 @@
     rv.forEach(function (el) { el.classList.add('is-in'); });
   }
 
+  /* === До и после: шторка. Тач, мышь и клавиатуру даёт сам input[type=range], здесь только его значение в --pos === */
+  $$('.ba__range').forEach(function (range) {
+    var view = range.parentNode;
+    function sync() {
+      var v = +range.value;
+      view.style.setProperty('--pos', v + '%');
+      range.setAttribute('aria-valuetext', 'Вечерний кадр открыт на ' + Math.round(100 - v) + '%');
+    }
+    range.addEventListener('input', sync);
+    sync();
+  });
+
   /* === Общий фон: мерцание лампочек === */
   var backdrop = $('#backdrop');
   if (backdrop && scene && !reduce && 'IntersectionObserver' in window) {
@@ -429,7 +441,7 @@
     if (a.tagName === 'A') {
       var href = a.getAttribute('href') || '';
       if (href.indexOf('tel:') === 0) goal('click_phone');
-      if (href === '#') e.preventDefault();   // ссылки-заглушки мессенджеров
+      if (href === '#') e.preventDefault();
     }
     if (a.hasAttribute('data-callback') && dlg) {
       if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', '');
@@ -486,16 +498,13 @@
     tel.addEventListener('blur', function () { if (phoneDigits(tel.value).length < 2) tel.value = ''; });
     form.addEventListener('input', function (e) {
       if (e.target.name === 'phone') setErr(form, 'phone', '');
-      if (e.target.name === 'agree') setErr(form, 'agree', '');
     });
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       if (form.notReady && form.notReady()) return;
       var okPhone = setErr(form, 'phone', phoneDigits(tel.value).length === 11 ? '' : 'Введите номер полностью: 10 цифр после +7');
-      var okAgree = setErr(form, 'agree', form.elements.agree.checked ? '' : 'Отметьте согласие, без него не можем принять заявку');
       if (!okPhone) { tel.focus(); return; }
-      if (!okAgree) { form.elements.agree.focus(); return; }
       // Сервера пока нет: здесь будет отправка
       form.classList.add('is-sent');
       var done = $('.done', form);

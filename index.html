@@ -1,7 +1,6 @@
 <!doctype html>
 <html lang="ru">
 <head>
-<!-- Перед запуском рекламы вернуть реквизиты оператора (ООО, ИНН, ОГРН) в подвал и политику: требование 152-ФЗ -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
@@ -54,7 +53,7 @@
     <span class="logo__name">podsvetka<b>doma</b><i>.ru</i></span>
     <span class="logo__sub">Новогодняя подсветка домов</span>
   </a>
-  <a class="head__tel" href="tel:+79999999999">+7 (999) 999-99-99</a>
+  <a class="head__tel" href="tel:+79671649797">+7 (967) 164-97-97</a>
   <a class="btn btn--gold btn--sm head__btn" href="#quiz">Рассчитать</a>
 </header>
 
@@ -143,45 +142,130 @@
   </div>
 </section>
 
-<section class="sec" id="works">
+<section class="sec" id="variants">
   <div class="wrap">
     <div class="sec__head sec__head--row rv">
       <div>
-        <p class="eyebrow">01 · Работы</p>
-        <h2>Наши работы</h2>
+        <p class="eyebrow">Днём и вечером</p>
+        <h2>Варианты подсветки: до и после</h2>
       </div>
-      <p>Пока здесь визуализации на примере одного дома. Фото объектов этого сезона добавим после первых монтажей.</p>
+      <p>Один и тот же дом днём и вечером с подсветкой. Потяните ползунок.</p>
     </div>
-    <ul class="works">
-      <li class="work rv"><figure>
-        <span class="work__img"><img src="assets/works/w1-600.webp" srcset="assets/works/w1-600.webp 600w, assets/works/w1.webp 1200w" sizes="(min-width: 900px) 30vw, (min-width: 640px) 45vw, 82vw" width="600" height="338" alt="Дом с контуром кровли и бахромой, визуализация" loading="lazy" decoding="async"></span>
-        <span class="work__tag">визуализация</span>
-        <figcaption>Контур кровли и бахрома</figcaption>
+    <!-- Шторка: снизу дневной кадр, сверху вечерний, обрезанный по линии. Линию двигает input[type=range], js/app.js пишет его значение в --pos -->
+    <ul class="bas">
+      <li class="ba rv"><figure>
+        <div class="ba__view">
+          <picture>
+            <source type="image/avif" srcset="assets/works/ba1-before-640.avif 640w, assets/works/ba1-before-1280.avif 1280w" sizes="(min-width: 1440px) 411px, (min-width: 1200px) 29vw, (min-width: 640px) 45vw, calc(100vw - 2.5rem)">
+            <img class="ba__img" src="assets/works/ba1-before-640.webp" srcset="assets/works/ba1-before-640.webp 640w, assets/works/ba1-before-1280.webp 1280w" sizes="(min-width: 1440px) 411px, (min-width: 1200px) 29vw, (min-width: 640px) 45vw, calc(100vw - 2.5rem)" width="640" height="427" alt="Кирпичный дом в два этажа днём, без подсветки" loading="lazy" decoding="async">
+          </picture>
+          <div class="ba__cut ba__cut--day" aria-hidden="true"><span class="ba__tag">Днём</span></div>
+          <div class="ba__cut ba__cut--eve">
+            <picture>
+              <source type="image/avif" srcset="assets/works/ba1-after-640.avif 640w, assets/works/ba1-after-1280.avif 1280w" sizes="(min-width: 1440px) 411px, (min-width: 1200px) 29vw, (min-width: 640px) 45vw, calc(100vw - 2.5rem)">
+              <img class="ba__img" src="assets/works/ba1-after-640.webp" srcset="assets/works/ba1-after-640.webp 640w, assets/works/ba1-after-1280.webp 1280w" sizes="(min-width: 1440px) 411px, (min-width: 1200px) 29vw, (min-width: 640px) 45vw, calc(100vw - 2.5rem)" width="640" height="427" alt="Тот же кирпичный дом вечером: бахрома по карнизам, контур кровли и подсветка входа, тёплый белый свет" loading="lazy" decoding="async">
+            </picture>
+            <span class="ba__tag" aria-hidden="true">Вечером</span>
+          </div>
+          <input class="ba__range" type="range" min="0" max="100" step="any" value="50" aria-label="Сравнить день и вечер: кирпичный дом в два этажа" aria-valuetext="Вечерний кадр открыт на 50%">
+          <span class="ba__line" aria-hidden="true"></span>
+        </div>
+        <figcaption><b>Кирпичный дом в два этажа</b><span>Бахрома по карнизам, контур кровли, вход. Тёплый белый свет.</span></figcaption>
       </figure></li>
-      <li class="work rv"><figure>
-        <span class="work__img"><img src="assets/works/w2-600.webp" srcset="assets/works/w2-600.webp 600w, assets/works/w2.webp 1200w" sizes="(min-width: 900px) 30vw, (min-width: 640px) 45vw, 82vw" width="600" height="338" alt="Подсветка входа и крыльца, визуализация" loading="lazy" decoding="async"></span>
-        <span class="work__tag">визуализация</span>
-        <figcaption>Вход и крыльцо</figcaption>
+      <li class="ba rv"><figure>
+        <div class="ba__view">
+          <picture>
+            <source type="image/avif" srcset="assets/works/ba2-before-640.avif 640w, assets/works/ba2-before-1280.avif 1280w" sizes="(min-width: 1440px) 411px, (min-width: 1200px) 29vw, (min-width: 640px) 45vw, calc(100vw - 2.5rem)">
+            <img class="ba__img" src="assets/works/ba2-before-640.webp" srcset="assets/works/ba2-before-640.webp 640w, assets/works/ba2-before-1280.webp 1280w" sizes="(min-width: 1440px) 411px, (min-width: 1200px) 29vw, (min-width: 640px) 45vw, calc(100vw - 2.5rem)" width="640" height="427" alt="Дом из бруса с террасой днём, без подсветки" loading="lazy" decoding="async">
+          </picture>
+          <div class="ba__cut ba__cut--day" aria-hidden="true"><span class="ba__tag">Днём</span></div>
+          <div class="ba__cut ba__cut--eve">
+            <picture>
+              <source type="image/avif" srcset="assets/works/ba2-after-640.avif 640w, assets/works/ba2-after-1280.avif 1280w" sizes="(min-width: 1440px) 411px, (min-width: 1200px) 29vw, (min-width: 640px) 45vw, calc(100vw - 2.5rem)">
+              <img class="ba__img" src="assets/works/ba2-after-640.webp" srcset="assets/works/ba2-after-640.webp 640w, assets/works/ba2-after-1280.webp 1280w" sizes="(min-width: 1440px) 411px, (min-width: 1200px) 29vw, (min-width: 640px) 45vw, calc(100vw - 2.5rem)" width="640" height="427" alt="Тот же дом из бруса вечером: разноцветная гирлянда по контуру кровли, фронтону и террасе, ель в разноцветной гирлянде" loading="lazy" decoding="async">
+            </picture>
+            <span class="ba__tag" aria-hidden="true">Вечером</span>
+          </div>
+          <input class="ba__range" type="range" min="0" max="100" step="any" value="50" aria-label="Сравнить день и вечер: дом из бруса с террасой" aria-valuetext="Вечерний кадр открыт на 50%">
+          <span class="ba__line" aria-hidden="true"></span>
+        </div>
+        <figcaption><b>Дом из бруса с террасой</b><span>Контур кровли и фронтонов, терраса, ель в гирлянде. Разноцветные лампы.</span></figcaption>
       </figure></li>
-      <li class="work rv"><figure>
-        <span class="work__img"><img src="assets/works/w3-600.webp" srcset="assets/works/w3-600.webp 600w, assets/works/w3.webp 1200w" sizes="(min-width: 900px) 30vw, (min-width: 640px) 45vw, 82vw" width="600" height="338" alt="Подсветка террасы и балкона, визуализация" loading="lazy" decoding="async"></span>
-        <span class="work__tag">визуализация</span>
-        <figcaption>Терраса и балкон</figcaption>
+      <li class="ba rv"><figure>
+        <div class="ba__view">
+          <picture>
+            <source type="image/avif" srcset="assets/works/ba3-before-640.avif 640w, assets/works/ba3-before-1280.avif 1280w" sizes="(min-width: 1440px) 411px, (min-width: 1200px) 29vw, (min-width: 640px) 45vw, calc(100vw - 2.5rem)">
+            <img class="ba__img" src="assets/works/ba3-before-640.webp" srcset="assets/works/ba3-before-640.webp 640w, assets/works/ba3-before-1280.webp 1280w" sizes="(min-width: 1440px) 411px, (min-width: 1200px) 29vw, (min-width: 640px) 45vw, calc(100vw - 2.5rem)" width="640" height="427" alt="Современный дом днём, без подсветки" loading="lazy" decoding="async">
+          </picture>
+          <div class="ba__cut ba__cut--day" aria-hidden="true"><span class="ba__tag">Днём</span></div>
+          <div class="ba__cut ba__cut--eve">
+            <picture>
+              <source type="image/avif" srcset="assets/works/ba3-after-640.avif 640w, assets/works/ba3-after-1280.avif 1280w" sizes="(min-width: 1440px) 411px, (min-width: 1200px) 29vw, (min-width: 640px) 45vw, calc(100vw - 2.5rem)">
+              <img class="ba__img" src="assets/works/ba3-after-640.webp" srcset="assets/works/ba3-after-640.webp 640w, assets/works/ba3-after-1280.webp 1280w" sizes="(min-width: 1440px) 411px, (min-width: 1200px) 29vw, (min-width: 640px) 45vw, calc(100vw - 2.5rem)" width="640" height="427" alt="Тот же современный дом вечером: бахрома холодного белого и синего цвета по карнизам, контур кровли и входа" loading="lazy" decoding="async">
+            </picture>
+            <span class="ba__tag" aria-hidden="true">Вечером</span>
+          </div>
+          <input class="ba__range" type="range" min="0" max="100" step="any" value="50" aria-label="Сравнить день и вечер: современный дом" aria-valuetext="Вечерний кадр открыт на 50%">
+          <span class="ba__line" aria-hidden="true"></span>
+        </div>
+        <figcaption><b>Современный дом</b><span>Бахрома и контур кровли, вход. Холодный белый с синим.</span></figcaption>
       </figure></li>
-      <li class="work rv"><figure>
-        <span class="work__img"><img src="assets/works/w4-600.webp" srcset="assets/works/w4-600.webp 600w, assets/works/w4.webp 1200w" sizes="(min-width: 900px) 30vw, (min-width: 640px) 45vw, 82vw" width="600" height="338" alt="Ёлка на участке в гирляндах, визуализация" loading="lazy" decoding="async"></span>
-        <span class="work__tag">визуализация</span>
-        <figcaption>Ёлка на участке</figcaption>
+      <li class="ba rv"><figure>
+        <div class="ba__view">
+          <picture>
+            <source type="image/avif" srcset="assets/works/ba4-before-640.avif 640w, assets/works/ba4-before-1280.avif 1280w" sizes="(min-width: 1440px) 411px, (min-width: 1200px) 29vw, (min-width: 640px) 45vw, calc(100vw - 2.5rem)">
+            <img class="ba__img" src="assets/works/ba4-before-640.webp" srcset="assets/works/ba4-before-640.webp 640w, assets/works/ba4-before-1280.webp 1280w" sizes="(min-width: 1440px) 411px, (min-width: 1200px) 29vw, (min-width: 640px) 45vw, calc(100vw - 2.5rem)" width="640" height="427" alt="Барнхаус днём, без подсветки" loading="lazy" decoding="async">
+          </picture>
+          <div class="ba__cut ba__cut--day" aria-hidden="true"><span class="ba__tag">Днём</span></div>
+          <div class="ba__cut ba__cut--eve">
+            <picture>
+              <source type="image/avif" srcset="assets/works/ba4-after-640.avif 640w, assets/works/ba4-after-1280.avif 1280w" sizes="(min-width: 1440px) 411px, (min-width: 1200px) 29vw, (min-width: 640px) 45vw, calc(100vw - 2.5rem)">
+              <img class="ba__img" src="assets/works/ba4-after-640.webp" srcset="assets/works/ba4-after-640.webp 640w, assets/works/ba4-after-1280.webp 1280w" sizes="(min-width: 1440px) 411px, (min-width: 1200px) 29vw, (min-width: 640px) 45vw, calc(100vw - 2.5rem)" width="640" height="427" alt="Тот же барнхаус вечером: разноцветная RGB-лента по контуру торца, карнизу и террасе, световой занавес на стене, берёзы и ели в гирляндах" loading="lazy" decoding="async">
+            </picture>
+            <span class="ba__tag" aria-hidden="true">Вечером</span>
+          </div>
+          <input class="ba__range" type="range" min="0" max="100" step="any" value="50" aria-label="Сравнить день и вечер: барнхаус" aria-valuetext="Вечерний кадр открыт на 50%">
+          <span class="ba__line" aria-hidden="true"></span>
+        </div>
+        <figcaption><b>Барнхаус</b><span>RGB-лента по контуру дома и террасы, световой занавес на стене, берёзы и ели в гирляндах.</span></figcaption>
       </figure></li>
-      <li class="work rv"><figure>
-        <span class="work__img"><img src="assets/works/w5-600.webp" srcset="assets/works/w5-600.webp 600w, assets/works/w5.webp 1200w" sizes="(min-width: 900px) 30vw, (min-width: 640px) 45vw, 82vw" width="600" height="338" alt="Подсветка фронтона и балкона, визуализация" loading="lazy" decoding="async"></span>
-        <span class="work__tag">визуализация</span>
-        <figcaption>Фронтон и балкон</figcaption>
+      <li class="ba rv"><figure>
+        <div class="ba__view">
+          <picture>
+            <source type="image/avif" srcset="assets/works/ba5-before-640.avif 640w, assets/works/ba5-before-1280.avif 1280w" sizes="(min-width: 1440px) 411px, (min-width: 1200px) 29vw, (min-width: 640px) 45vw, calc(100vw - 2.5rem)">
+            <img class="ba__img" src="assets/works/ba5-before-640.webp" srcset="assets/works/ba5-before-640.webp 640w, assets/works/ba5-before-1280.webp 1280w" sizes="(min-width: 1440px) 411px, (min-width: 1200px) 29vw, (min-width: 640px) 45vw, calc(100vw - 2.5rem)" width="640" height="427" alt="Большой дом с колоннами днём, без подсветки" loading="lazy" decoding="async">
+          </picture>
+          <div class="ba__cut ba__cut--day" aria-hidden="true"><span class="ba__tag">Днём</span></div>
+          <div class="ba__cut ba__cut--eve">
+            <picture>
+              <source type="image/avif" srcset="assets/works/ba5-after-640.avif 640w, assets/works/ba5-after-1280.avif 1280w" sizes="(min-width: 1440px) 411px, (min-width: 1200px) 29vw, (min-width: 640px) 45vw, calc(100vw - 2.5rem)">
+              <img class="ba__img" src="assets/works/ba5-after-640.webp" srcset="assets/works/ba5-after-640.webp 640w, assets/works/ba5-after-1280.webp 1280w" sizes="(min-width: 1440px) 411px, (min-width: 1200px) 29vw, (min-width: 640px) 45vw, calc(100vw - 2.5rem)" width="640" height="427" alt="Тот же дом с колоннами вечером: световой занавес на колоннах, бахрома, гирлянды на деревьях и воротах" loading="lazy" decoding="async">
+            </picture>
+            <span class="ba__tag" aria-hidden="true">Вечером</span>
+          </div>
+          <input class="ba__range" type="range" min="0" max="100" step="any" value="50" aria-label="Сравнить день и вечер: большой дом с колоннами" aria-valuetext="Вечерний кадр открыт на 50%">
+          <span class="ba__line" aria-hidden="true"></span>
+        </div>
+        <figcaption><b>Большой дом с колоннами</b><span>Световой занавес на колоннах, бахрома, деревья, ворота.</span></figcaption>
       </figure></li>
-      <li class="work rv"><figure>
-        <span class="work__img"><img src="assets/works/w6-600.webp" srcset="assets/works/w6-600.webp 600w, assets/works/w6.webp 1200w" sizes="(min-width: 900px) 30vw, (min-width: 640px) 45vw, 82vw" width="600" height="338" alt="Берёзы у дома в гирляндах, визуализация" loading="lazy" decoding="async"></span>
-        <span class="work__tag">визуализация</span>
-        <figcaption>Деревья у дома</figcaption>
+      <li class="ba rv"><figure>
+        <div class="ba__view" style="--pos: 28%">
+          <picture>
+            <source type="image/avif" srcset="assets/works/ba6-before-640.avif 640w, assets/works/ba6-before-1280.avif 1280w" sizes="(min-width: 1440px) 411px, (min-width: 1200px) 29vw, (min-width: 640px) 45vw, calc(100vw - 2.5rem)">
+            <img class="ba__img" src="assets/works/ba6-before-640.webp" srcset="assets/works/ba6-before-640.webp 640w, assets/works/ba6-before-1280.webp 1280w" sizes="(min-width: 1440px) 411px, (min-width: 1200px) 29vw, (min-width: 640px) 45vw, calc(100vw - 2.5rem)" width="640" height="427" alt="Дом с участком днём, без подсветки" loading="lazy" decoding="async">
+          </picture>
+          <div class="ba__cut ba__cut--day" aria-hidden="true"><span class="ba__tag">Днём</span></div>
+          <div class="ba__cut ba__cut--eve">
+            <picture>
+              <source type="image/avif" srcset="assets/works/ba6-after-640.avif 640w, assets/works/ba6-after-1280.avif 1280w" sizes="(min-width: 1440px) 411px, (min-width: 1200px) 29vw, (min-width: 640px) 45vw, calc(100vw - 2.5rem)">
+              <img class="ba__img" src="assets/works/ba6-after-640.webp" srcset="assets/works/ba6-after-640.webp 640w, assets/works/ba6-after-1280.webp 1280w" sizes="(min-width: 1440px) 411px, (min-width: 1200px) 29vw, (min-width: 640px) 45vw, calc(100vw - 2.5rem)" width="640" height="427" alt="Тот же дом вечером: бахрома, ель в гирлянде, световые фигуры - олени и шары" loading="lazy" decoding="async">
+            </picture>
+            <span class="ba__tag" aria-hidden="true">Вечером</span>
+          </div>
+          <input class="ba__range" type="range" min="0" max="100" step="any" value="28" aria-label="Сравнить день и вечер: дом с участком" aria-valuetext="Вечерний кадр открыт на 72%">
+          <span class="ba__line" aria-hidden="true"></span>
+        </div>
+        <figcaption><b>Дом с участком</b><span>Бахрома, ель в гирлянде, световые фигуры: олени и шары.</span></figcaption>
       </figure></li>
     </ul>
   </div>
@@ -190,7 +274,7 @@
 <section class="sec sec--alt" id="quiz">
   <div class="wrap quizgrid">
     <div class="sec__head rv">
-      <p class="eyebrow">02 · Расчёт</p>
+      <p class="eyebrow">Расчёт</p>
       <h2>Узнайте стоимость подсветки вашего дома</h2>
       <p>Ответьте на 5 вопросов. Пришлём расчёт и схему, где какие гирлянды.</p>
       <dl class="terms">
@@ -286,8 +370,6 @@
             <label class="opt opt--chip"><input type="radio" name="via" value="Звонок"><span>Позвоните мне</span></label>
           </div>
         </div>
-        <label class="agree"><input type="checkbox" name="agree" value="1" aria-describedby="q-agree-err"><span>Согласен на обработку персональных данных: <a href="policy.html#consent">согласие</a>, <a href="policy.html">политика</a></span></label>
-        <p class="field__err" id="q-agree-err" data-err="agree" role="alert"></p>
         <button class="btn btn--gold" type="submit">Получить расчёт</button>
       </fieldset>
 
@@ -301,9 +383,9 @@
         <p class="done__t">Заявка принята</p>
         <p>Свяжемся в течение часа. Хотите быстрее - пришлите фото дома в мессенджер.</p>
         <div class="msgs msgs--rows">
-          <a class="btn btn--line" href="#" data-goal="click_telegram">Telegram</a>
-          <a class="btn btn--line" href="#" data-goal="click_max">MAX</a>
-          <a class="btn btn--line" href="#" data-goal="click_whatsapp">WhatsApp</a>
+          <a class="btn btn--line" href="https://t.me/+79671649797" target="_blank" rel="noopener" data-goal="click_telegram">Telegram</a>
+          <a class="btn btn--line" href="https://max.ru/+79671649797" target="_blank" rel="noopener" data-goal="click_max">MAX</a>
+          <a class="btn btn--line" href="https://wa.me/79671649797" target="_blank" rel="noopener" data-goal="click_whatsapp">WhatsApp</a>
         </div>
       </div>
     </form>
@@ -313,18 +395,18 @@
 <section class="sec" id="photo">
   <div class="wrap split split--mid">
     <div class="rv">
-      <p class="eyebrow">03 · Без выезда</p>
+      <p class="eyebrow">Без выезда</p>
       <h2>Пришлите фото дома - посчитаем без выезда</h2>
       <p class="lead">Сфотографируйте дом с улицы и со двора и напишите, что хотите подсветить. Ответим с предварительной ценой в течение часа.</p>
       <p class="note">Визуализацию по фото делаем бесплатно, в день обращения. Точную смету даём после замера.</p>
     </div>
     <div class="rv">
       <div class="msgs msgs--rows">
-        <a class="btn btn--line" href="#" data-goal="click_telegram">Написать в Telegram</a>
-        <a class="btn btn--line" href="#" data-goal="click_max">Написать в MAX</a>
-        <a class="btn btn--line" href="#" data-goal="click_whatsapp">Написать в WhatsApp</a>
+        <a class="btn btn--line" href="https://t.me/+79671649797" target="_blank" rel="noopener" data-goal="click_telegram">Написать в Telegram</a>
+        <a class="btn btn--line" href="https://max.ru/+79671649797" target="_blank" rel="noopener" data-goal="click_max">Написать в MAX</a>
+        <a class="btn btn--line" href="https://wa.me/79671649797" target="_blank" rel="noopener" data-goal="click_whatsapp">Написать в WhatsApp</a>
       </div>
-      <p class="note">Или позвоните: <a href="tel:+79999999999">+7 (999) 999-99-99</a>, ежедневно с 9 до 21. <button class="link" type="button" data-callback>Перезвоните мне</button></p>
+      <p class="note">Или позвоните: <a href="tel:+79671649797">+7 (967) 164-97-97</a>, ежедневно с 9 до 21. <button class="link" type="button" data-callback>Перезвоните мне</button></p>
     </div>
   </div>
 </section>
@@ -332,7 +414,7 @@
 <section class="sec sec--alt" id="included">
   <div class="wrap">
     <div class="sec__head rv">
-      <p class="eyebrow">04 · Под ключ</p>
+      <p class="eyebrow">Под ключ</p>
       <h2>Что входит в работу</h2>
     </div>
     <ol class="rows rows--num rv">
@@ -362,7 +444,7 @@
 <section class="sec" id="steps">
   <div class="wrap">
     <div class="sec__head rv">
-      <p class="eyebrow">05 · Как работаем</p>
+      <p class="eyebrow">Как работаем</p>
       <h2>От заявки до включения - 4 шага</h2>
     </div>
     <ol class="flow rv">
@@ -377,7 +459,7 @@
 <section class="sec sec--alt" id="warranty">
   <div class="wrap split">
     <div class="rv">
-      <p class="eyebrow">06 · Договор</p>
+      <p class="eyebrow">Договор</p>
       <h2>Что прописано в договоре</h2>
     </div>
     <ul class="rows rows--big rows--check rv">
@@ -391,7 +473,7 @@
 <section class="sec" id="faq">
   <div class="wrap split">
     <div class="rv">
-      <p class="eyebrow">07 · Вопросы</p>
+      <p class="eyebrow">Вопросы</p>
       <h2>Вопросы и ответы</h2>
     </div>
     <div class="faq rv">
@@ -450,8 +532,6 @@
             <button class="btn btn--gold" type="submit">Жду звонка</button>
           </div>
           <p class="field__err" id="l-phone-err" data-err="phone" role="alert"></p>
-          <label class="agree"><input type="checkbox" name="agree" value="1" aria-describedby="l-agree-err"><span>Согласен на обработку персональных данных: <a href="policy.html#consent">согласие</a>, <a href="policy.html">политика</a></span></label>
-          <p class="field__err" id="l-agree-err" data-err="agree" role="alert"></p>
         </div>
         <div class="done" tabindex="-1" hidden>
           <span class="done__mark" aria-hidden="true"></span>
@@ -471,18 +551,14 @@
       <p class="foot__name">podsvetka<b>doma</b><i>.ru</i></p>
     </div>
     <div>
-      <p><a href="tel:+79999999999">+7 (999) 999-99-99</a>, ежедневно с 9 до 21</p>
-    </div>
-    <div>
-      <p><a href="policy.html">Политика обработки персональных данных</a></p>
-      <p><a href="policy.html#consent">Согласие на обработку персональных данных</a></p>
+      <p><a href="tel:+79671649797">+7 (967) 164-97-97</a>, ежедневно с 9 до 21</p>
     </div>
   </div>
 </footer>
 
 <div class="bar" id="bar">
   <a class="btn btn--gold" href="#quiz">Рассчитать стоимость</a>
-  <a class="btn btn--line" href="#" data-goal="click_telegram">Telegram</a>
+  <a class="btn btn--line" href="https://t.me/+79671649797" target="_blank" rel="noopener" data-goal="click_telegram">Telegram</a>
 </div>
 
 <dialog class="modal" id="callback" aria-labelledby="cb-title">
@@ -495,8 +571,6 @@
         <input id="c-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 (___) ___-__-__" aria-describedby="c-phone-err">
         <p class="field__err" id="c-phone-err" data-err="phone" role="alert"></p>
       </div>
-      <label class="agree"><input type="checkbox" name="agree" value="1" aria-describedby="c-agree-err"><span>Согласен на обработку персональных данных: <a href="policy.html#consent">согласие</a>, <a href="policy.html">политика</a></span></label>
-      <p class="field__err" id="c-agree-err" data-err="agree" role="alert"></p>
       <button class="btn btn--gold" type="submit">Перезвоните мне</button>
     </div>
     <div class="done" tabindex="-1" hidden>
