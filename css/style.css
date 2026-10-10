@@ -321,6 +321,24 @@ html:not(.js) .scene__track { display: none; }
   .scard--final .btn { grid-column: 2; grid-row: 1 / 4; margin-top: 0; }
   .scene__bulbs { top: 50%; right: clamp(.75rem, 1.8vw, 2rem); flex-direction: column; gap: .875rem; padding: .875rem .625rem; border-radius: 99px; background: var(--plate); transform: translateY(-50%); }
 }
+/* Телефон: три цифры первого экрана должны помещаться в ширину без обрезки */
+@media (max-width: 639px) {
+  .facts li { padding-inline: .625rem; }
+  .facts li:first-child { padding-left: 0; }
+  .facts li:last-child { padding-right: 0; }
+  .facts b { font-size: clamp(.875rem, 4.6vw, 1.125rem); }
+  .facts span { font-size: clamp(.6875rem, 3.3vw, .8125rem); }
+}
+/* Узкий десктоп и планшет лёжа: кнопки и блок цифр в одну строку, а если не влезают - блок цифр уходит на вторую */
+@media (orientation: landscape) and (min-width: 640px) and (max-width: 1199px) and (min-height: 521px) {
+  .hero__bottom { gap: 1rem; flex-wrap: wrap; }
+  .hero__act { flex: 0 1 auto; }
+  .hero__note { max-width: 26rem; }
+  .hero__bottom .hero__cta .btn { padding-inline: 1.25rem; }
+  .hero__info { flex: none; margin-left: auto; }
+  .facts li, .facts li:first-child { padding-inline: .75rem; }
+  .facts b { font-size: clamp(1.0625rem, 1.9vw, 1.375rem); }
+}
 @media (orientation: landscape) and (min-width: 1200px) and (min-height: 521px) {
   .hero__sub span { display: inline; }
 }
