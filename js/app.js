@@ -13,9 +13,10 @@
     { title: 'Деревья', garland: 'Обмотка стволов и толстых веток', price: 'от 9 000 руб. за дерево', qty: '2 берёзы', sum: 18000, wipe: ['y', 0.80, 0.22] }
   ];
 
-  /* --- Цели. Позже сюда встанет Метрика: ym(ID, 'reachGoal', name) --- */
+  /* --- Цели уходят в Метрику. На демо-странице счётчика нет, там вызов просто ничего не делает --- */
+  var METRIKA_ID = 113599324;
   function goal(name) {
-    console.debug('goal:', name);
+    if (typeof window.ym === 'function') window.ym(METRIKA_ID, 'reachGoal', name);
   }
   var fired = {};
   function goalOnce(name) {
