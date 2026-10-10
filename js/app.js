@@ -481,13 +481,22 @@
   var UTM = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'yclid'];
   var query = new URLSearchParams(location.search);
 
+  // Заявки принимает lead.php на своём сервере. На демо-странице сервера нет: там форма только показывает результат.
+  var LEAD_URL = /github\.io$/.test(location.hostname) ? '' : 'lead.php';
+
   $$('form[data-lead]').forEach(function (form) {
-    // Метки рекламы для будущего сервера
+    // Метки рекламы
     UTM.forEach(function (key) {
       var h = document.createElement('input');
       h.type = 'hidden'; h.name = key; h.value = query.get(key) || '';
       form.appendChild(h);
     });
+    // Поле-ловушка для роботов: человек его не видит и не заполняет
+    var trap = document.createElement('input');
+    trap.type = 'text'; trap.name = 'website'; trap.tabIndex = -1; trap.autocomplete = 'off';
+    trap.setAttribute('aria-hidden', 'true');
+    trap.style.cssText = 'position:absolute;left:-9999px;width:1px;height:1px;opacity:0';
+    form.appendChild(trap);
 
     var tel = form.elements.phone;
     tel.addEventListener('input', function (e) {
@@ -505,12 +514,32 @@
       if (form.notReady && form.notReady()) return;
       var okPhone = setErr(form, 'phone', phoneDigits(tel.value).length === 11 ? '' : 'Введите номер полностью: 10 цифр после +7');
       if (!okPhone) { tel.focus(); return; }
-      // Сервера пока нет: здесь будет отправка
-      form.classList.add('is-sent');
-      var done = $('.done', form);
-      done.hidden = false;
-      done.focus({ preventScroll: true });
-      goal(form.dataset.goal);
+      if (form.busy) return;
+
+      function sent() {
+        form.classList.add('is-sent');
+        var done = $('.done', form);
+        done.hidden = false;
+        done.focus({ preventScroll: true });
+        goal(form.dataset.goal);
+      }
+      if (!LEAD_URL) { sent(); return; }
+
+      var data = new FormData(form);
+      data.append('form', form.dataset.lead);
+      // Несколько отмеченных зон - одной строкой
+      var zones = data.getAll('zones');
+      if (zones.length) data.set('zones', zones.join(', '));
+      var btn = $('[type="submit"]', form);
+      form.busy = true;
+      if (btn) btn.disabled = true;
+      fetch(LEAD_URL, { method: 'POST', body: data, headers: { 'X-Lead': '1' } })
+        .then(function (r) { return r.json(); })
+        .then(function (res) { if (!res || !res.ok) throw new Error('lead'); sent(); })
+        .catch(function () {
+          setErr(form, 'phone', 'Не получилось отправить. Позвоните нам: +7 (967) 164-97-97');
+        })
+        .then(function () { form.busy = false; if (btn) btn.disabled = false; });
     });
   });
 
