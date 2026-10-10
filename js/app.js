@@ -3,7 +3,7 @@
 (function () {
   'use strict';
 
-  // Цены-заглушки, заменить на цены заказчика.
+  // Цены и объёмы для примера расчёта на первом экране.
   // wipe: ось ('x' слева направо, 'y' снизу вверх) и ход края маски в долях кадра 4:3
   var STEPS = [
     { title: 'Контур кровли', garland: 'Нить по скатам и карнизам', price: 'от 1 000 руб./м', qty: '70 м', sum: 70000, wipe: ['x', 0.19, 0.80] },
@@ -433,7 +433,7 @@
     $$('#quiz-form, #lead-form').forEach(function (el) { barIo.observe(el); });
   }
 
-  /* === Клики: цели, заглушки, окно === */
+  /* === Клики: цели, окно обратного звонка === */
   var dlg = $('#callback');
   document.addEventListener('click', function (e) {
     var a = e.target.closest('a, button');
