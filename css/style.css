@@ -323,11 +323,11 @@ html:not(.js) .scene__track { display: none; }
 }
 /* Телефон: три цифры первого экрана должны помещаться в ширину без обрезки */
 @media (max-width: 639px) {
-  .facts li { padding-inline: .625rem; }
+  .facts li { padding-inline: .5rem; }
   .facts li:first-child { padding-left: 0; }
   .facts li:last-child { padding-right: 0; }
   .facts b { font-size: clamp(.875rem, 4.6vw, 1.125rem); }
-  .facts span { font-size: clamp(.6875rem, 3.3vw, .8125rem); }
+  .facts span { font-size: clamp(.625rem, 3.1vw, .8125rem); }
 }
 /* Узкий десктоп и планшет лёжа: кнопки и блок цифр в одну строку, а если не влезают - блок цифр уходит на вторую */
 @media (orientation: landscape) and (min-width: 640px) and (max-width: 1199px) and (min-height: 521px) {
